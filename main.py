@@ -68,7 +68,12 @@ async def on_message(message):
     if parts[0] == "!classement" and parts[1] == "add":
         if required_role in member.roles: #verif si le sender a le role
             try:
-                cursor.execute("INSERT INTO sbd (name, squat, bench, deadlift) VALUES (?, ?, ?, ?)", (parts[2], parts[3], parts[4], parts[5]))
+                cursor.execute("SELECT * FROM sbd WHERE name = ?", (parts[2],))
+                result = cursor.fetchone()
+                if result:
+                    cursor.execute("UPDATE sbd SET squat = ?, bench = ?, deadlift = ?, sbd = ? WHERE name = ?", (parts[3], parts[4], parts[5], (int(parts[3]) + int(parts[4]) + int(parts[5])) / 3, parts[2]))
+                else:
+                    cursor.execute("INSERT INTO sbd (name, squat, bench, deadlift) VALUES (?, ?, ?, ?)", (parts[2], parts[3], parts[4], parts[5]))
                 conn.commit()
                 await message.channel.send(f"L'utilisateur {parts[2]} a était rajouté au classement avec succès !")
             except (IndexError, ValueError):
