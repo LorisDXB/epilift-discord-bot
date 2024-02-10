@@ -57,7 +57,7 @@ async def on_message(message):
         embed = discord.Embed(title="Classement Epilift", description="Voici le classement Epilift", color=0xffd700)
         for index, result in enumerate(results, start=1):
             name, squat, bench, deadlift, sbd = result
-            value = f"Prenom: {name}, Squat: {squat}kg, Bench: {bench}kg, Deadlift: {deadlift}kg, Sbd: {sbd}kg"
+            value = f"Prenom: {name}, Squat: {squat}kg, Bench: {bench}kg, Deadlift: {deadlift}kg, Sbd: {round(sbd, 2)}kg"
             embed.add_field(name=f"{index}st Place", value=value, inline=False) 
         embed.set_footer(text="Merci de DM lorisdxb pour etre mis sur le classement! :)")
         await message.channel.send(embed=embed)
@@ -72,10 +72,11 @@ async def on_message(message):
                 result = cursor.fetchone()
                 if result:
                     cursor.execute("UPDATE sbd SET squat = ?, bench = ?, deadlift = ?, sbd = ? WHERE name = ?", (parts[3], parts[4], parts[5], (int(parts[3]) + int(parts[4]) + int(parts[5])) / 3, parts[2]))
+                    await message.channel.send(f"L'utilisateur {parts[2]} a été mis à jour avec succès !")
                 else:
                     cursor.execute("INSERT INTO sbd (name, squat, bench, deadlift) VALUES (?, ?, ?, ?)", (parts[2], parts[3], parts[4], parts[5]))
+                    await message.channel.send(f"L'utilisateur {parts[2]} a été ajouté au classement avec succès !")
                 conn.commit()
-                await message.channel.send(f"L'utilisateur {parts[2]} a était rajouté au classement avec succès !")
             except (IndexError, ValueError):
                 await message.channel.send("Pas assez d'arguments, 4 arguments nécessaire")
         else:
@@ -84,11 +85,18 @@ async def on_message(message):
     if parts[0] == "!classement" and parts[1] == "del":
         if required_role in member.roles: #verif si le sender a le role
             try:
-                cursor.execute("DELETE FROM sbd WHERE name = ?", (parts[2],))
-                conn.commit()
-                await message.channel.send(f"L'utilisateur {parts[2]} a était supprimé du classement avec succès!")
+                cursor.execute("SELECT * FROM sbd WHERE name = ?", (parts[2],))
+                result = cursor.fetchone()
+                if result:
+                    cursor.execute("DELETE FROM sbd WHERE name = ?", (parts[2],))
+                    conn.commit()
+                    await message.channel.send(f"L'utilisateur {parts[2]} a était supprimé du classement avec succès!")
+                else:
+                    await message.channel.send(f"L'utilisateur {parts[2]} n'est pas présent dans le classement.")
             except (IndexError, ValueError):
                 await message.channel.send("Pas assez d'arguments, 4 arguments nécessaire")
         else:
-            await message.channel.send("Vous n'avez pas les permissions.") 
+            await message.channel.send("Vous n'avez pas les permissions.")
+    ####  ####################
+
 client.run(token)
