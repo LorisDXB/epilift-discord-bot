@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import os
 import discord
+import bot
 import math
 import random
 import sqlite3
@@ -22,10 +23,10 @@ async def on_ready():
         if guild.name == my_guild:
             break
 
-    print(
-        f"{client.user} is connected to the following guild:\n"
-        f"{guild.name}(id: {guild.id})"
-    )
+        print(
+            f"{client.user} is connected to the following guild:\n"
+            f"{guild.name}(id: {guild.id})"
+        )
 
 @client.event
 async def on_message(message):
@@ -61,6 +62,48 @@ async def on_message(message):
             embed.add_field(name=f"{index}st Place", value=value, inline=False) 
         embed.set_footer(text="Merci de DM lorisdxb pour etre mis sur le classement! :)")
         await message.channel.send(embed=embed)
+     #### LEADERBOARD SQUAT SHOW FUNCTION #################################################################
+    if parts[0] == "!classement" and parts[1] == "squat":
+        try:
+            cursor.execute("SELECT name, squat FROM sbd ORDER BY squat DESC")
+            results = cursor.fetchall()
+            embed = discord.Embed(title="Classement squat Epilift", description="Voici le classement Squat Epilift", color=0xffd700)
+            for index, result in enumerate(results, start=1):
+                name, squat = result
+                value = f"Prenom: {name}, Squat: {squat}kg"
+                embed.add_field(name=f"{index}st Place", value=value, inline=False)
+            embed.set_footer(text="Merci de DM lorisdxb pour etre mis sur le classement! :)")
+            await message.channel.send(embed=embed)
+        except(IndexError, ValueError):
+            await message.channel.send("Erreur")
+    ##### LEADERBOARD BENCH SHOW FUNCTION ###############################################################
+    if parts[0] == "!classement" and parts[1] == "bench":
+        try:
+            cursor.execute("SELECT name, bench FROM sbd ORDER BY bench DESC")
+            results = cursor.fetchall()
+            embed = discord.Embed(title="Classement bench Epilift", description="Voici le classement Bench Epilift", color=0xffd700)
+            for index, result in enumerate(results, start=1):
+                name, bench = result
+                value = f"Prenom: {name}, Bench: {bench}kg"
+                embed.add_field(name=f"{index}st Place", value=value, inline=False)
+            embed.set_footer(text="Merci de DM lorisdxb pour etre mis sur le classement! :)")
+            await message.channel.send(embed=embed)
+        except(IndexError, ValueError):
+            await message.channel.send("Erreur")
+    ### LEADERBOARD DEADLIFT SHOW FUNCTION ###############################################
+    if parts[0] == "!classement" and parts[1] == "deadlift":
+        try:
+            cursor.execute("SELECT name, deadlift FROM sbd ORDER BY deadlift DESC")
+            results = cursor.fetchall()
+            embed = discord.Embed(title="Classement deadlift Epilift", description="Voici le classement Deadlift Epilift", color=0xffd700)
+            for index, result in enumerate(results, start=1):
+                name, deadlift = result
+                value = f"Prenom: {name}, Deadlift: {deadlift}kg"
+                embed.add_field(name=f"{index}st Place", value=value, inline=False)
+            embed.set_footer(text="Merci de DM lorisdxb pour etre mis sur le classement! :)")
+            await message.channel.send(embed=embed)
+        except(IndexError, ValueError):
+            await message.channel.send("Erreur")
     #### LEADERBOARD ADD FUNCTION ###################################################################
     required_role = message.guild.get_role(1204824665638436955) #get organisateur role
     member = await message.guild.fetch_member(message.author.id) #get member id
@@ -123,4 +166,4 @@ async def on_message(message):
         except (IndexError, ValueError):
             await message.channel.send("Erreur lors de l'exécution de la requête.")
 
-client.run(token)
+client.run('ADDTOKENHERE')
