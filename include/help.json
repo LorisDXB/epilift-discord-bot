@@ -1,0 +1,18 @@
+ [
+    {
+        "name": "wallet",
+        "description": "shows your wallet"
+    },
+    {
+        "name": "randexercise <bodypart>",
+        "description": "fetch a random exercise for the selected <bodypart>"
+    },
+    {
+        "name": "lookup <user>",
+        "description": "fetch selected <user>'s statistics and displays them"
+    },
+    {
+        "name": "leaderboard",
+        "description": "shows the top 10 leaderboard of epilift"
+    }
+]
