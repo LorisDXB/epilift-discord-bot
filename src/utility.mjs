@@ -4,8 +4,8 @@ export function extractLifts(parsedCommand) {
 	const squat = Number(parsedCommand.arguments[1]);
 	const bench = Number(parsedCommand.arguments[2]);
 	const deadlift = Number(parsedCommand.arguments[3]);
-    
-    return {squat, bench, deadlift, sbd: squat + bench + deadlift};
+
+	return {squat, bench, deadlift, sbd: squat + bench + deadlift};
 }
 
 export async function isAUser(userId, client) {
@@ -73,7 +73,7 @@ export async function getUserRank(db, targetUserId) {
 		});
 		for (let i = 0; i < result.length; i++) {
 			const user = result[i];
-			
+
 			if (user.userId == targetUserId) {
 				return i + 1;
 			}
@@ -91,11 +91,11 @@ export function getErrorMessage(errorInfo, error) {
 
 export function fetchRandomEmbedColor() {
 	const colors = [
-    	'#FF5733',
-    	'#33FF57',
-    	'#3357FF',
-    	'#FF33A8',
-    	'#33FFF5'
+		'#FF5733',
+		'#33FF57',
+		'#3357FF',
+		'#FF33A8',
+		'#33FFF5'
 	];
 
 	return colors[Math.floor(Math.random() * colors.length)];
