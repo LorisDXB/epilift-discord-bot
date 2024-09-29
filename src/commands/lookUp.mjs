@@ -3,7 +3,7 @@ import * as utility from "../utility.mjs";
 import { EmbedBuilder } from "discord.js";
 
 export async function lookUpUser(message, parsedCommand, db, client) {
-    const targetUserId = parsedCommand.arguments[0].slice(2, -1);
+	const targetUserId = parsedCommand.arguments[0] ? parsedCommand.arguments[0].slice(2, -1) : null;
     try {
         const result = await fetchUserData(targetUserId, db);
         const userRank = await utility.getUserRank(db, targetUserId); 
