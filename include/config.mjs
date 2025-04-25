@@ -65,3 +65,9 @@ export const walletEmbed = new EmbedBuilder()
 export const helpEmbed = new EmbedBuilder()
   .setTitle("Epilift bot help :robot:")
   .setTimestamp();
+
+export const progressionEmbed = new EmbedBuilder()
+  .setColor("Blue")
+  .setTitle("Progression :emoji_5:")
+  .setTimestamp()
+  .setFooter({ text: "Keep up the good work!"})

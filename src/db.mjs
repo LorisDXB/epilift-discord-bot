@@ -8,6 +8,7 @@ export function setupDataBase() {
 			try {
 				createStatisticsDB(db);
 				createBankDb(db);
+				createStatStoreDb(db);
 			} catch (error) {
 				console.error(utility.getErrorMessage("db.mjs l12", error));
 			}
@@ -17,7 +18,6 @@ export function setupDataBase() {
 }
 
 function createStatisticsDB(db) {
-	// return new Promise((resolve, reject) => {
 	db.run(`CREATE TABLE IF NOT EXISTS statistics (
 				userId VARCHAR(128) PRIMARY KEY UNIQUE,
 				squat INTEGER,
@@ -25,7 +25,7 @@ function createStatisticsDB(db) {
 				deadlift INTEGER,
 				sbd INTEGER)`, error => {
 					if (error) {
-						console.error(utility.getErrorMessage("db.mjs l28", error));
+						console.error(utility.getErrorMessage("db.mjs l27", error));
 					}
 				});
 }
@@ -35,7 +35,18 @@ function createBankDb(db) {
 			userId VARCHAR(128) PRIMARY KEY UNIQUE,
 			wallet INTEGER)`, error => {
 				if (error) {
-					console.error(utility.getErrorMessage("db.mjs l38", error));
+					console.error(utility.getErrorMessage("db.mjs l37", error));
+				}
+			});
+}
+
+function createStatStoreDb(db) {
+	db.run(`CREATE TABLE IF NOT EXISTS statstore (
+			userId VARCHAR(128) PRIMARY KEY UNIQUE,
+			date VARCHAR(128),
+			sbd INTEGER)`, error => {
+				if (error) {
+					console.error(utility.getErrorMessage("db.mjs l48", error));
 				}
 			});
 }

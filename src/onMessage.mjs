@@ -12,6 +12,7 @@ import { removeWallet } from "./commands/removeWallet.mjs";
 import { giveMoney } from "./commands/giveMoney.mjs";
 import { takeMoney } from "./commands/takeMoney.mjs";
 import { helpMenu } from "./commands/help.mjs";
+import { showProgression } from "./commands/showProgression.mjs";
 
 const nonUserCommandTable = { //basic commands
 	randexercise: randomExercise,
@@ -28,7 +29,8 @@ const userCommandTable = { //commands needing db access and client validation
 	wallet: showWallet,
 	removewallet: removeWallet,
 	givemoney: giveMoney,
-	takemoney: takeMoney
+	takemoney: takeMoney,
+	showprogression: showProgression
 }
 
 export async function handleMessages(message, db, client) {

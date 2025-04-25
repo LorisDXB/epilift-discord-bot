@@ -10,8 +10,9 @@ export async function setEntry(message, parsedCommand, db, client) {
 		return;
 	}
 	try {
-		const queryFunction = await fetchQueryFunction(db, targetUserId);
-		const success = await queryFunction(parsedCommand, db, targetUserId);
+		const result = await fetchQueryFunction(db, targetUserId);
+		const success = result ? await updateUser(parsedCommand, db, targetUserId, result)
+			: await addNewUser(parsedCommand, db, targetUserId);
 
 		if (success) {
 			message.reply("User added or updated successfully!");	
@@ -45,7 +46,7 @@ async function fetchQueryFunction(db, userIdToAdd) {
 			if (error) {
 				reject(new Error(utility.getErrorMessage("setEntry.mjs l44", error)));
 			} else {
-				resolve(row ? updateUser : addNewUser);
+				resolve(row);
 			}
 		});
 	});	
@@ -117,9 +118,16 @@ async function addNewUser(parsedCommand, db, targetUserId) {
 	return utility.executeQuery(db, query, [targetUserId, lifts.squat, lifts.bench, lifts.deadlift, lifts.sbd]); 
 }
 
-async function updateUser(parsedCommand, db, targetUserId) {
+async function updateUser(parsedCommand, db, targetUserId, currentStats) {
 	const lifts = utility.extractLifts(parsedCommand);
 	const query = `UPDATE statistics SET squat = ?, bench = ?, deadlift = ?, sbd = ? WHERE userId = ?`;
 
+	await storeCurrentStats(currentStats, db, targetUserId);
 	return utility.executeQuery(db, query, [lifts.squat, lifts.bench, lifts.deadlift, lifts.sbd, targetUserId]); 
+}
+
+async function storeCurrentStats(currentStats, db, targetUserId) {
+	const query = `INSERT INTO statstore (userId, date, sbd) VALUES (?, ?, ?)`;
+
+    return utility.executeQuery(db, query, [targetUserId, new Date.toLocaleDateString(), currentStats]);
 }
