@@ -30,7 +30,7 @@ const userCommandTable = { //commands needing db access and client validation
 	removewallet: removeWallet,
 	givemoney: giveMoney,
 	takemoney: takeMoney,
-	showprogression: showProgression
+	progression: showProgression
 }
 
 export async function handleMessages(message, db, client) {
