@@ -1,18 +1,22 @@
  [
     {
         "name": "wallet",
-        "description": "shows your wallet"
+        "description": "shows your wallet."
     },
     {
         "name": "randexercise <bodypart>",
-        "description": "fetch a random exercise for the selected <bodypart>"
+        "description": "fetch a random exercise for the selected <bodypart>."
     },
     {
         "name": "lookup <user>",
-        "description": "fetch selected <user>'s statistics and displays them"
+        "description": "fetch selected <user>'s statistics and displays them."
     },
     {
         "name": "leaderboard",
-        "description": "shows the top 10 leaderboard of epilift"
+        "description": "shows the top 10 leaderboard of epilift."
+    },
+    {
+        "name": "progression <user?>",
+        "description": "with argument, shows progression of <user>, otherwise, shows yours."
     }
 ]
