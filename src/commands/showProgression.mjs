@@ -20,7 +20,7 @@ export async function showProgression(message, parsedCommand, db, client) {
         const progressionGraphURL = await getProgressionGraph(progressionTable);
 
         if (progressionGraphURL) {
-            const progressionEmbed = getProgressionEmbed(message.author, progressionGraphURL);
+            const progressionEmbed = await getProgressionEmbed(targetUserId, progressionGraphURL);
 
             message.reply({embeds: [progressionEmbed]});
         }
@@ -30,11 +30,12 @@ export async function showProgression(message, parsedCommand, db, client) {
     }
 }
 
-function getProgressionEmbed(user, progressionGraphURL) {
+async function getProgressionEmbed(userId, progressionGraphURL) {
+    const user = await client.users.fetch(userId);
     const walletEmbed = new EmbedBuilder(config.progressionEmbed);
 
     walletEmbed
-        .setTitle(`${user.username}'s progression :emoji_5:`)
+        .setTitle(`${user.username}'s progression :chart_with_upwards_trend:`)
         .setImage(progressionGraphURL)
         .setColor(utility.fetchRandomEmbedColor());
     return walletEmbed;
