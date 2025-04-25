@@ -17,6 +17,7 @@ export async function isAUser(userId, client) {
 
 		return !!user;
 	} catch (error) {
+		console.error(getErrorMessage("isAUser", error));
 		return false;
 	}
 }

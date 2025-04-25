@@ -73,6 +73,9 @@ async function getProgressionTable(db, targetUserId) {
 async function argumentRobustness(targetUserId, client) {
 	const isUser = await utility.isAUser(targetUserId, client);
 
-	if (!isUser) return true;
+	if (!isUser) {
+        console.log("wasn't user: ", targetUserId);
+        return true;
+    }
 	return false;
 }
