@@ -3,6 +3,7 @@ import { EmbedBuilder } from "discord.js";
 import * as config from "../../include/config.mjs";
 
 export async function showProgression(message, parsedCommand, db, client) {
+    console.log(targetUserId);
 	const targetUserId = parsedCommand.arguments[0] ? parsedCommand.arguments[0].slice(2, -1) : null;
     const error = argumentRobustness(targetUserId, client);
     
