@@ -5,7 +5,7 @@ import * as config from "../../include/config.mjs";
 export async function showProgression(message, parsedCommand, db, client) {
 	const targetUserId = parsedCommand.arguments[0] ? parsedCommand.arguments[0].slice(2, -1) : null;
     console.log(targetUserId);
-    const error = argumentRobustness(targetUserId, client);
+    const error = await argumentRobustness(targetUserId, client);
     
 	if (error) {
 		message.reply("These arguments are invalid.");
