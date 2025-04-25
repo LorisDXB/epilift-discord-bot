@@ -129,5 +129,5 @@ async function updateUser(parsedCommand, db, targetUserId, currentStats) {
 async function storeCurrentStats(currentStats, db, targetUserId) {
 	const query = `INSERT INTO statstore (userId, date, sbd) VALUES (?, ?, ?)`;
 
-    return utility.executeQuery(db, query, [targetUserId, new Date.toLocaleDateString(), currentStats]);
+    return utility.executeQuery(db, query, [targetUserId, new Date().toLocaleDateString(), currentStats]);
 }
