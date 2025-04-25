@@ -20,17 +20,17 @@ export async function showProgression(message, parsedCommand, db, client) {
         const progressionGraphURL = await getProgressionGraph(progressionTable);
 
         if (progressionGraphURL) {
-            const progressionEmbed = await getProgressionEmbed(targetUserId, progressionGraphURL);
+            const progressionEmbed = await getProgressionEmbed(targetUserId, progressionGraphURL, client);
 
             message.reply({embeds: [progressionEmbed]});
         }
     } catch (error) {
-		console.error(utility.getErrorMessage("setEntry.mjs l14", error));
+		console.error(utility.getErrorMessage("showProgression.mjs l28", error));
 		message.reply("Couldn't get progression.");
     }
 }
 
-async function getProgressionEmbed(userId, progressionGraphURL) {
+async function getProgressionEmbed(userId, progressionGraphURL, client) {
     const user = await client.users.fetch(userId);
     const walletEmbed = new EmbedBuilder(config.progressionEmbed);
 
