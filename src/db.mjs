@@ -42,7 +42,7 @@ function createBankDb(db) {
 
 function createStatStoreDb(db) {
 	db.run(`CREATE TABLE IF NOT EXISTS statstore (
-			userId VARCHAR(128) PRIMARY KEY UNIQUE,
+			userId VARCHAR(128) PRIMARY KEY,
 			date VARCHAR(128),
 			sbd INTEGER)`, error => {
 				if (error) {
