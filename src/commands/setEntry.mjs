@@ -11,7 +11,7 @@ export async function setEntry(message, parsedCommand, db, client) {
 	}
 	try {
 		const queryFunction = await fetchQueryFunction(db, targetUserId);
-		const success = queryFunction(parsedCommand, db, targetUserId);
+		const success = await queryFunction(parsedCommand, db, targetUserId);
 
 		if (success) {
 			message.reply("User added or updated successfully!");	
@@ -125,8 +125,8 @@ async function updateUser(parsedCommand, db, targetUserId) {
 	return utility.executeQuery(db, query, [lifts.squat, lifts.bench, lifts.deadlift, lifts.sbd, targetUserId]); 
 }
 
-async function storeCurrentStats(currentStats, db, targetUserId) {
+async function storeCurrentStats(lifts, db, targetUserId) {
 	const query = `INSERT INTO statstore (userId, date, sbd) VALUES (?, ?, ?)`;
 
-    return utility.executeQuery(db, query, [targetUserId, new Date().toLocaleDateString(), currentStats.sbd]);
+    return utility.executeQuery(db, query, [targetUserId, new Date().toLocaleDateString(), lifts.sbd]);
 }
